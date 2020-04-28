@@ -5,24 +5,31 @@ import java.util.Locale;
 public class SwitchMain {
 
     public static void main(String... args) {
-        String product = "cheese";
+        String product = "donut";
 
-        Locale origin = null;
-
-        switch (product) {
-            case "burger":
-            case "donut":
-                origin = Locale.US;
-                break;
-            case "cheese":
-                origin = Locale.forLanguageTag("nl");
-                break;
-            case "maple syrup":
-                origin = Locale.CANADA;
-                break;
-            default:
-                origin = Locale.getDefault();
-        }
+        Locale origin = switch (product) {
+            // Cases can now be combined with a comma!
+            case "burger", "donut" -> {
+                // Statements in the switch are properly scoped. You can
+                // now introduce variables with the same name in different
+                // right-hand sides of cases in a switch expression.
+                String temp = product.toUpperCase();
+                System.out.println(temp);
+                yield Locale.US;
+            }
+            // The arrow implies the expression on the right-hand side
+            // is returned when the case matches. No `break` necessary
+            // anymore!
+            case "cheese" -> Locale.forLanguageTag("nl");
+            case "maple syrup" -> {
+                String temp = "OH CANADA!";
+                System.out.println(temp);
+                yield Locale.CANADA;
+            }
+            // Default case only necessary when exhaustiveness cannot be
+            // checked by the compiler (so can be left out for enums).
+            default -> Locale.getDefault();
+        };
 
         System.out.println(origin);
     }

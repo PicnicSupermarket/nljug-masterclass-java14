@@ -17,8 +17,18 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <configuration>
+          <!-- The enable-preview flag is set in .mvn/jvm.config-->
           <mainClass>tech.picnic.java14.RecordsMain</mainClass>
           <cleanupDaemonThreads>false</cleanupDaemonThreads>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs>
+            <compilerArg>--enable-preview</compilerArg>
+          </compilerArgs>
         </configuration>
       </plugin>
     </plugins>
